@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smarter Together</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; }
@@ -137,8 +138,8 @@
     }
 
     .smt-badge-unit {
-      color: rgba(167,139,250,0.78);
-      font-size: 10.5px;
+      color: rgba(167,139,250,0.82);
+      font-size: 11px;
       font-weight: 600;
       font-family: inherit;
     }
@@ -213,7 +214,11 @@
       overflow: hidden;
       cursor: pointer;
       background: rgba(9, 6, 28, 0.92);
-      transition: transform 0.2s ease;
+      border: 1px solid rgba(139, 92, 244, 0.35);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .smt-btn:hover {
+      border-color: rgba(139, 92, 244, 0.6);
     }
 
     /* Blurred gradient glow — brand purple palette */
@@ -223,7 +228,7 @@
       background: linear-gradient(to right, #4f46e5, #7c3aed, #a855f7);
       opacity: 0.38;
       filter: blur(10px);
-      transition: opacity 0.5s ease;
+      transition: opacity 0.35s ease;
       pointer-events: none;
     }
     .smt-btn:hover .smt-btn-glow { opacity: 0.82; }
@@ -290,7 +295,7 @@
       .smt-badge-number { font-size: 24px; }
       .smt-title     { font-size: 22px; }
       .smt-desc      { font-size: 13.5px; max-width: 100%; margin-bottom: 14px; }
-      .smt-btn       { height: 36px; padding: 0 16px; }
+      .smt-btn       { height: 44px; padding: 0 16px; }
       .smt-btn-content { font-size: 13px; }
     }
   </style>
@@ -500,13 +505,6 @@
         }
       }
 
-      // ── Loop ───────────────────────────────────────────────────
-      function loop(now) {
-        update();
-        draw(now);
-        requestAnimationFrame(loop);
-      }
-
       // ── Events ─────────────────────────────────────────────────
       const ro = new ResizeObserver(() => { resize(); initNodes(); });
       ro.observe(canvas.parentElement);
@@ -527,6 +525,10 @@
         mouse.x = -9999;
         mouse.y = -9999;
       });
+      window.addEventListener('touchend', () => {
+        mouse.x = -9999;
+        mouse.y = -9999;
+      }, { passive: true });
 
       // ── Boot ───────────────────────────────────────────────────
       resize();
@@ -535,7 +537,21 @@
       if (reduced) {
         draw(t0);
       } else {
-        requestAnimationFrame(loop);
+        let rafId = null;
+        function loop(now) {
+          update();
+          draw(now);
+          rafId = requestAnimationFrame(loop);
+        }
+        const io = new IntersectionObserver(entries => {
+          if (entries[0].isIntersecting) {
+            if (!rafId) rafId = requestAnimationFrame(loop);
+          } else {
+            if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+          }
+        }, { threshold: 0 });
+        io.observe(canvas.parentElement);
+        rafId = requestAnimationFrame(loop);
       }
     })();
   </script>
