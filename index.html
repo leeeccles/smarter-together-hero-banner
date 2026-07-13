@@ -91,6 +91,11 @@
     font-size: 13.5px;
     line-height: 1.45;
     color: var(--text-secondary);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
   }
   .tasks {
     margin-top: auto;
@@ -208,13 +213,15 @@
   }
   .demo-foot strong { color: #e6e1f7; font-weight: 700; }
   @media (max-width: 900px) {
-    .sub { display: none; }
-    .intro { flex-basis: 42%; }
-    .task { padding: 8px 11px; font-size: 11.5px; }
+    h1 { font-size: 23px; }
+    .sub { font-size: 12.5px; }
+    .intro { flex-basis: 44%; }
+    .task { padding: 8px 12px; font-size: 11.5px; }
   }
   @media (max-width: 700px) {
     .banner { padding: 18px 18px 16px; gap: 14px; }
     h1 { font-size: 20px; }
+    .sub { display: none; }
     .demo-foot { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -244,7 +251,7 @@
     </div>
     <div class="demo">
       <div class="demo-head">
-        <div class="demo-tag" id="demo-tag">AI output &mdash; recap email</div>
+        <div class="demo-tag" id="demo-tag">AI output &middot; email</div>
         <div class="demo-meta">
           <span class="clock" id="clock">0.0s</span>
           <span class="saved-pill" id="saved-pill">
@@ -262,21 +269,21 @@
 <script>
   const TASKS = [
     {
-      tag: "AI output — recap email",
+      tag: "AI output · email",
       text: "Hi team — recap from this morning: launch moves to 12 May, Priya owns the pricing page, and legal need final copy by Friday. Full notes attached. Shout if I've missed anything. — Lee",
       saved: "20 min back",
       byHand: "~20 minutes",
       course: "AI for Everyday Communications"
     },
     {
-      tag: "AI output — 30-page report, 3 lines",
+      tag: "AI output · summary",
       text: "1. Churn is down 2.1 pts, driven by faster onboarding. 2. Onboarding speed predicts renewal better than ticket volume. 3. EMEA pipeline needs two more qualified deals to hit Q3.",
       saved: "35 min back",
       byHand: "~35 minutes",
       course: "AI for Business Documents & Presentations"
     },
     {
-      tag: "AI output — project status update",
+      tag: "AI output · update",
       text: "On track. Design signed off Tuesday and build is 60% complete. One risk: the data migration — mitigation agreed with IT. Next milestone: UAT on the 24th.",
       saved: "15 min back",
       byHand: "~15 minutes",
