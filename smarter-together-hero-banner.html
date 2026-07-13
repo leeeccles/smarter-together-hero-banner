@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smarter Together</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; }
@@ -30,6 +31,7 @@
       text-decoration: none;
       cursor: pointer;
       overflow: hidden;
+      border-radius: 12px;
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
       border: 1px solid rgba(139, 92, 244, 0.30);
       box-shadow: 0 4px 32px rgba(0, 0, 0, 0.35);
@@ -136,8 +138,8 @@
     }
 
     .smt-badge-unit {
-      color: rgba(167,139,250,0.78);
-      font-size: 10.5px;
+      color: rgba(167,139,250,0.82);
+      font-size: 11px;
       font-weight: 600;
       font-family: inherit;
     }
@@ -201,162 +203,61 @@
       font-family: inherit;
     }
 
-    /* ── AI Animated Button ──────────────────────────────────── */
-    .smt-ai-btn {
-      --hl-hue: 262deg;
-      --hl:    hsl(var(--hl-hue), 87%, 70%);
-      --hl-80: hsla(var(--hl-hue), 87%, 70%, 0.8);
-      --hl-50: hsla(var(--hl-hue), 87%, 70%, 0.5);
-      --hl-30: hsla(var(--hl-hue), 87%, 70%, 0.3);
-      --pad: 4px;
-      --r:   24px;
-      --dur: 0.35s;
-
+    /* ── Button ──────────────────────────────────────────────── */
+    .smt-btn {
       position: relative;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 10px 20px;
-      border-radius: var(--r);
+      height: 40px;
+      padding: 0 18px;
+      border-radius: 8px;
+      overflow: hidden;
       cursor: pointer;
-
-      /* Clearly distinct from the dark background */
-      background: rgba(30, 18, 72, 0.95);
-      border: 1px solid rgba(139, 92, 244, 0.55);
-
-      box-shadow:
-        inset 0px 1px 1px rgba(255,255,255,0.14),
-        inset 0px 2px 4px rgba(255,255,255,0.08),
-        inset 0px 6px 8px rgba(255,255,255,0.04),
-        0 2px 12px rgba(139, 92, 244, 0.20);
-
-      transition: box-shadow var(--dur), border-color var(--dur), background-color var(--dur);
+      background: rgba(9, 6, 28, 0.92);
+      border: 1px solid rgba(139, 92, 244, 0.35);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .smt-btn:hover {
+      border-color: rgba(139, 92, 244, 0.6);
     }
 
-    /* Outer depth layer — no dark fill so it doesn't create a halo */
-    .smt-ai-btn::before {
-      content: '';
-      position: absolute;
-      top:    calc(0px - var(--pad));
-      left:   calc(0px - var(--pad));
-      width:  calc(100% + var(--pad) * 2);
-      height: calc(100% + var(--pad) * 2);
-      border-radius: calc(var(--r) + var(--pad));
-      background-image: none;
-      z-index: -1;
-      pointer-events: none;
-      transition: box-shadow var(--dur);
-      box-shadow:
-        0 -8px 8px -6px transparent inset,
-        0 -16px 16px -8px transparent inset,
-        1px 1px 1px rgba(255,255,255,0.08),
-        -1px -1px 1px rgba(0,0,0,0.08);
-    }
-
-    /* Bottom-up highlight gradient — reveals on hover */
-    .smt-ai-btn::after {
-      content: '';
+    /* Blurred gradient glow — brand purple palette */
+    .smt-btn-glow {
       position: absolute;
       inset: 0;
-      border-radius: inherit;
+      background: linear-gradient(to right, #4f46e5, #7c3aed, #a855f7);
+      opacity: 0.38;
+      filter: blur(10px);
+      transition: opacity 0.35s ease;
       pointer-events: none;
-      background-image: linear-gradient(
-        0deg,
-        rgba(255,255,255,0.10),
-        var(--hl),
-        var(--hl-50) 8%,
-        transparent
-      );
-      -webkit-mask-image: linear-gradient(0deg, #fff, transparent);
-      mask-image: linear-gradient(0deg, #fff, transparent);
-      opacity: 0;
-      transition: opacity var(--dur);
     }
+    .smt-btn:hover .smt-btn-glow { opacity: 0.82; }
 
-    /* Sparkle SVG — clearly visible at rest */
-    .smt-ai-svg {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-      fill: rgba(196,181,253,0.92);
-      filter: drop-shadow(0 0 4px rgba(139,92,244,0.65));
-      animation: smt-flicker 2.2s linear infinite;
-      animation-delay: 0.5s;
-      transition: fill var(--dur), filter var(--dur);
-    }
-    @keyframes smt-flicker { 50% { opacity: 0.45; } }
-
-    /* Per-letter animation — readable at rest */
-    .smt-ai-letter {
-      display: inline-block;
-      color: rgba(255,255,255,0.88);
+    /* Text + icon row */
+    .smt-btn-content {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #ffffff;
       font-size: 14px;
       font-weight: 700;
-      letter-spacing: 0.2px;
       font-family: inherit;
-      animation: smt-letter 2.2s ease-in-out infinite;
-      transition: color var(--dur), text-shadow var(--dur);
-    }
-    @keyframes smt-letter {
-      0%, 100% { color: rgba(255,255,255,0.88); }
-      50%       { color: #fff; text-shadow: 0 0 5px rgba(196,181,253,0.7); }
+      white-space: nowrap;
     }
 
-    /* Stagger delays for "Get Started" (11 chars incl. space) */
-    .smt-ai-letter:nth-child(1)  { animation-delay: 0.00s; }
-    .smt-ai-letter:nth-child(2)  { animation-delay: 0.08s; }
-    .smt-ai-letter:nth-child(3)  { animation-delay: 0.16s; }
-    .smt-ai-letter:nth-child(4)  { animation-delay: 0.24s; }
-    .smt-ai-letter:nth-child(5)  { animation-delay: 0.32s; }
-    .smt-ai-letter:nth-child(6)  { animation-delay: 0.40s; }
-    .smt-ai-letter:nth-child(7)  { animation-delay: 0.48s; }
-    .smt-ai-letter:nth-child(8)  { animation-delay: 0.56s; }
-    .smt-ai-letter:nth-child(9)  { animation-delay: 0.64s; }
-    .smt-ai-letter:nth-child(10) { animation-delay: 0.72s; }
-    .smt-ai-letter:nth-child(11) { animation-delay: 0.80s; }
+    /* Arrow icon */
+    .smt-btn-icon {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      stroke: rgba(255,255,255,0.85);
+      transition: transform 0.2s ease;
+    }
+    .smt-btn:hover .smt-btn-icon { transform: translate(2px, -2px); }
 
-    /* Hover */
-    .smt-ai-btn:hover {
-      border-color: hsla(262deg, 87%, 80%, 0.55);
-      box-shadow:
-        inset 0px 1px 1px rgba(255,255,255,0.14),
-        inset 0px 2px 4px rgba(255,255,255,0.08),
-        0 4px 20px rgba(139, 92, 244, 0.40);
-    }
-    .smt-ai-btn:hover::before {
-      box-shadow:
-        0 -8px 8px -6px rgba(255,255,255,0.65) inset,
-        0 -16px 16px -8px var(--hl-30) inset,
-        1px 1px 1px rgba(255,255,255,0.10),
-        -1px -1px 1px rgba(0,0,0,0.08);
-    }
-    .smt-ai-btn:hover::after { opacity: 1; }
-    .smt-ai-btn:hover .smt-ai-svg {
-      fill: #ffffff;
-      filter: drop-shadow(0 0 5px var(--hl)) drop-shadow(0 -3px 5px rgba(0,0,0,0.5));
-      animation: none;
-    }
-    .smt-ai-btn:hover .smt-ai-letter { color: #fff; animation: none; }
-
-    /* Active */
-    .smt-ai-btn:active {
-      border-color: hsla(262deg, 87%, 80%, 0.75);
-      background-color: hsla(262deg, 50%, 20%, 0.55);
-    }
-    .smt-ai-btn:active::before {
-      box-shadow:
-        0 -8px 12px -6px rgba(255,255,255,0.65) inset,
-        0 -16px 16px -8px var(--hl-80) inset,
-        1px 1px 1px rgba(255,255,255,0.12),
-        -1px -1px 1px rgba(0,0,0,0.08);
-    }
-    .smt-ai-btn:active::after { opacity: 1; filter: brightness(180%); }
-    .smt-ai-btn:active .smt-ai-letter {
-      color: var(--hl);
-      text-shadow: 0 0 2px var(--hl);
-      animation: none;
-    }
+    /* Active press */
+    .smt-btn:active { transform: scale(0.97); }
 
     /* ── Keyframes ───────────────────────────────────────────── */
     @keyframes smt-pulse {
@@ -371,11 +272,10 @@
     /* ── Reduced motion ──────────────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
       .smt-badge, .smt-badge-dot, .smt-eyebrow-dot, .smt-hero::before,
-      .smt-ai-svg, .smt-ai-letter {
+      .smt-btn, .smt-btn-glow, .smt-btn-icon {
         animation: none;
         transition: none;
       }
-      .smt-ai-letter { color: rgba(255,255,255,0.88); }
     }
 
     /* ── Responsive: tablet stack ────────────────────────────── */
@@ -395,8 +295,8 @@
       .smt-badge-number { font-size: 24px; }
       .smt-title     { font-size: 22px; }
       .smt-desc      { font-size: 13.5px; max-width: 100%; margin-bottom: 14px; }
-      .smt-ai-btn    { padding: 9px 18px; }
-      .smt-ai-letter { font-size: 13px; }
+      .smt-btn       { height: 44px; padding: 0 16px; }
+      .smt-btn-content { font-size: 13px; }
     }
   </style>
 </head>
@@ -429,11 +329,14 @@
       </p>
       <h2 class="smt-title">Make AI part of your day-to-day</h2>
       <p class="smt-desc">Short, practical prompt packs for real tasks — emails, planning, analysis, and summaries — plus safe usage guidance and sense-checking outputs.</p>
-      <span class="smt-ai-btn" aria-hidden="true">
-        <svg class="smt-ai-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"/>
-        </svg>
-        <span class="smt-ai-txt"><span class="smt-ai-letter">G</span><span class="smt-ai-letter">e</span><span class="smt-ai-letter">t</span><span class="smt-ai-letter">&nbsp;</span><span class="smt-ai-letter">S</span><span class="smt-ai-letter">t</span><span class="smt-ai-letter">a</span><span class="smt-ai-letter">r</span><span class="smt-ai-letter">t</span><span class="smt-ai-letter">e</span><span class="smt-ai-letter">d</span></span>
+      <span class="smt-btn" aria-hidden="true">
+        <span class="smt-btn-glow"></span>
+        <span class="smt-btn-content">
+          Get Started
+          <svg class="smt-btn-icon" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M7 17L17 7M17 7H7M17 7v10"/>
+          </svg>
+        </span>
       </span>
     </div>
 
@@ -602,13 +505,6 @@
         }
       }
 
-      // ── Loop ───────────────────────────────────────────────────
-      function loop(now) {
-        update();
-        draw(now);
-        requestAnimationFrame(loop);
-      }
-
       // ── Events ─────────────────────────────────────────────────
       const ro = new ResizeObserver(() => { resize(); initNodes(); });
       ro.observe(canvas.parentElement);
@@ -629,6 +525,10 @@
         mouse.x = -9999;
         mouse.y = -9999;
       });
+      window.addEventListener('touchend', () => {
+        mouse.x = -9999;
+        mouse.y = -9999;
+      }, { passive: true });
 
       // ── Boot ───────────────────────────────────────────────────
       resize();
@@ -637,7 +537,21 @@
       if (reduced) {
         draw(t0);
       } else {
-        requestAnimationFrame(loop);
+        let rafId = null;
+        function loop(now) {
+          update();
+          draw(now);
+          rafId = requestAnimationFrame(loop);
+        }
+        const io = new IntersectionObserver(entries => {
+          if (entries[0].isIntersecting) {
+            if (!rafId) rafId = requestAnimationFrame(loop);
+          } else {
+            if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+          }
+        }, { threshold: 0 });
+        io.observe(canvas.parentElement);
+        rafId = requestAnimationFrame(loop);
       }
     })();
   </script>
